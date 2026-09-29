@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: 8785869928844327663}
   - component: {fileID: 8331236191315641181}
   - component: {fileID: 5744159364983364505}
+  - component: {fileID: 6964181527821555676}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Floor
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -322,6 +323,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 131567e445e6ef84c99488cd76bf3ac1, type: 2}
   - {fileID: 2100000, guid: dd257bb068ff00949a9338f9f8e158ac, type: 2}
   - {fileID: 2100000, guid: 1d255524137396948978a21c5315af55, type: 2}
+--- !u!114 &6964181527821555676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231147898168653364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c054e0d529aaa0346a2cacc42e046258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &1682701781649558221
 GameObject:
   m_ObjectHideFlags: 0
