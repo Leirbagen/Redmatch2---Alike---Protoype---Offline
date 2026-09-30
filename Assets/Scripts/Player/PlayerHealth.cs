@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-
     public int maxHealth = 100;
     private int currentHealth;
 
@@ -22,7 +21,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             Die();
         }
     }
-
     private void UpdateUI()
     {
         if (HealthUI.Instance != null)
@@ -30,10 +28,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             HealthUI.Instance.UpdateHealth(currentHealth);
         }
     }
-
     private void Die()
     {
-        string actualScene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(actualScene);
+        if (DeathMenuUI.Instance != null)
+        {
+            DeathMenuUI.Instance.ShowDeathPanel();
+        }
     }
 }

@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GrapplingController leftGrapple;
     [SerializeField] private GrapplingController rightGrapple;
     [SerializeField] private float groundCheckDistance = 1.1f;
+    [SerializeField] private float fallDistanceThreshold = 20f;
+    [SerializeField] private float damagePerMeter = 2f; 
+    [SerializeField] private int maxFallDamage = 40;
+    private float highestYPosition;
     private InputController input;
     public AudioSource playerAudio;
     public AudioClip jumpSound;
@@ -58,10 +62,32 @@ public class PlayerController : MonoBehaviour
     {
         bool touchingGround = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
-        if (isJumping && touchingGround && myBody.linearVelocity.y <= -0.1f)
+        if (!touchingGround)
+        {
+            if (transform.position.y > highestYPosition)
+            {
+                highestYPosition = transform.position.y;
+            }
+        }
+        if (isJumping && touchingGround)
         {
             playerAudio.PlayOneShot(landSound);
+            float fallDistance = highestYPosition - transform.position.y;
+            if (fallDistance > fallDistanceThreshold)
+            {
+                int calculatedDamage = Mathf.RoundToInt((fallDistance - fallDistanceThreshold) * damagePerMeter);
+                int finalDamage = Mathf.Min(calculatedDamage, maxFallDamage); 
+                if (TryGetComponent<IDamageable>(out var damageable))
+                {
+                    damageable.TakeDamage(finalDamage);
+                }
+            }
         }
+        if (touchingGround)
+        {
+            highestYPosition = transform.position.y;
+        }
+
         isJumping = !touchingGround;
         if (input.GetButtonDown(InputController.Input.JUMP))
         {
