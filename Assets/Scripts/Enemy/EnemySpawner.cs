@@ -1,14 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public int concurrentEnemies = 15; 
-    public float respawnDelay = 3f;    
+    public int concurrentEnemies = 15;
+    public int totalEnemiesForLevel = 25;
+    public float respawnDelay = 3f;
+    public string nextLevelName = "Level 2";
+    [SerializeField] private int enemiesSpawned = 0;
 
     void Start()
     {
-        
+        int initialSpawns = Mathf.Min(concurrentEnemies, totalEnemiesForLevel);
+
         for (int i = 0; i < concurrentEnemies; i++)
         {
             SpawnSingleEnemy();
@@ -21,14 +26,23 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = EnemyPool.Instance.RequestEnemy();
         Vector3 randomOffset = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
         enemy.transform.position = transform.position + randomOffset;
+        enemiesSpawned++;
     }
     private IEnumerator RespawnMonitor()
     {
         while (true)
         {
-            if (EnemyPool.Instance.ActiveEnemiesCount() < concurrentEnemies)
+            if (enemiesSpawned < totalEnemiesForLevel)
             {
-                SpawnSingleEnemy();
+                if (EnemyPool.Instance.ActiveEnemiesCount() < concurrentEnemies)
+                {
+                    SpawnSingleEnemy();
+                }
+            }
+            else if (EnemyPool.Instance.ActiveEnemiesCount() == 0)
+            {
+                SceneManager.LoadScene(nextLevelName);
+                yield break; 
             }
             yield return new WaitForSeconds(respawnDelay);
         }
