@@ -331,7 +331,7 @@ MonoBehaviour:
   followSettings:
     speed: 10
     drag: 0
-  enableStartRotation: 0
+  enableStartRotation: 1
   minRotation: -4
   maxRotation: 4
   rotationRandomFlip: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  enableScaleByNumber: 1
+  enableScaleByNumber: 0
   scaleByNumberSettings:
     fromNumber: 0
     toNumber: 1000

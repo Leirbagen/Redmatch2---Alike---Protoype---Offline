@@ -30,8 +30,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         currentHealth = maxHealth;
-        enemyRenderer = GetComponent<Renderer>();
-        enemyBody = GetComponent<Rigidbody>();
         if (enemyRenderer != null)
         {
             enemyRenderer.material.color = originalColor;
