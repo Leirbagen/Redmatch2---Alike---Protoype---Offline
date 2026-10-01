@@ -3,17 +3,16 @@ using TMPro;
 
 public class HealthUI : MonoBehaviour
 {
-    public static HealthUI Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI healthText;
 
-    private void Awake()
+    private void OnEnable() 
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        PlayerHealth.OnHealthChange += UpdateHealth;
+    }
+
+    private void OnDisable()
+    {
+        PlayerHealth.OnHealthChange -= UpdateHealth;
     }
     public void UpdateHealth(int currentHealth)
     {

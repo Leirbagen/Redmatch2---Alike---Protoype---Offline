@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class WeaponBase : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public abstract class WeaponBase : MonoBehaviour
     public int currentAmmo { get; protected set; }
     protected bool canShoot = true;
     protected bool isReloading = false;
-
+    public static event Action<int, int> OnAmmoChanged;
 
     protected virtual void Start()
     {
@@ -24,14 +25,16 @@ public abstract class WeaponBase : MonoBehaviour
             StartCoroutine(ShootRoutine());
         }
     }
+    public void RefreshAmmoUI()
+    {
+        OnAmmoChanged?.Invoke(currentAmmo, maxAmmo);
+    }
+
     private IEnumerator ShootRoutine()
     {
         canShoot = false;
         currentAmmo--;
-        if (WeaponUI.Instance != null)
-        {
-            WeaponUI.Instance.UpdateBoth(currentAmmo, maxAmmo);
-        }
+        OnAmmoChanged?.Invoke(currentAmmo, maxAmmo);
         ExecuteShoot(); 
         yield return new WaitForSeconds(fireInterval);
         canShoot = true;
@@ -49,10 +52,7 @@ public abstract class WeaponBase : MonoBehaviour
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
-        if (WeaponUI.Instance != null)
-        {
-            WeaponUI.Instance.UpdateBoth(currentAmmo, maxAmmo);
-        }
+        OnAmmoChanged?.Invoke(currentAmmo, maxAmmo);
         isReloading = false;
     }
     protected abstract void ExecuteShoot();

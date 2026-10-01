@@ -11,7 +11,7 @@ public class TimelineStarter : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         director.Play();
     }
 }

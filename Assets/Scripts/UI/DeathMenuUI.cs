@@ -1,18 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DeathMenuUI : MonoBehaviour
 {
-    public static DeathMenuUI Instance { get; private set; }
-    public GameObject deathPanel; 
-    private void Awake()
+    public GameObject deathPanel;
+    private void OnEnable()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        PlayerHealth.OnPlayerDied += ShowDeathPanel;
+        LevelManager.OnTimeOutLost += ShowDeathPanel;
+    }
+    private void OnDisable()
+    {
+        PlayerHealth.OnPlayerDied -= ShowDeathPanel;
+        LevelManager.OnTimeOutLost -= ShowDeathPanel;
     }
     public void ShowDeathPanel()
     {
@@ -20,6 +21,7 @@ public class DeathMenuUI : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
     }
     public void ReloadLevel()
     {
