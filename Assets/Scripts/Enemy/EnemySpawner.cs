@@ -7,8 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public int concurrentEnemies = 15;
     public int totalEnemiesForLevel = 25;
     public float respawnDelay = 3f;
-    public string nextLevelName = "Level 2";
-    [SerializeField] private int enemiesSpawned = 0;
+    private int enemiesSpawned = 0;
 
     void Start()
     {
@@ -32,17 +31,9 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            if (enemiesSpawned < totalEnemiesForLevel)
+            if (EnemyPool.Instance.ActiveEnemiesCount() < concurrentEnemies)
             {
-                if (EnemyPool.Instance.ActiveEnemiesCount() < concurrentEnemies)
-                {
-                    SpawnSingleEnemy();
-                }
-            }
-            else if (EnemyPool.Instance.ActiveEnemiesCount() == 0)
-            {
-                SceneManager.LoadScene(nextLevelName);
-                yield break; 
+                SpawnSingleEnemy();
             }
             yield return new WaitForSeconds(respawnDelay);
         }

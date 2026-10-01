@@ -1,4 +1,5 @@
-using Rewired; 
+using Rewired;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ public class PlayerWeaponController : MonoBehaviour
     public int activeWeaponIndex { get; private set; }
     private WeaponBase currentWeapon;
     private bool isSwitchingAxis = false;
-
+    public static event Action<int> OnWeaponSwitched;
+    public static event Action OnWeaponsCleared;
 
     private void Start()
     {
@@ -22,10 +24,7 @@ public class PlayerWeaponController : MonoBehaviour
         {
             AddWeapon(startingWeapon);
         }
-        if (WeaponUI.Instance != null)
-        {
-            WeaponUI.Instance.ClearWeaponUI();
-        }
+        OnWeaponsCleared?.Invoke();
     }
     private void Update()
     {
@@ -119,10 +118,11 @@ public class PlayerWeaponController : MonoBehaviour
         activeWeaponIndex = newIndex;
         currentWeapon = weaponSlots[newIndex];
 
-        if (WeaponUI.Instance != null && currentWeapon != null)
+        OnWeaponSwitched?.Invoke(activeWeaponIndex);
+
+        if (currentWeapon != null)
         {
-            WeaponUI.Instance.UpdateBoth(currentWeapon.currentAmmo, currentWeapon.maxAmmo);
-            WeaponUI.Instance.UpdateActiveWeaponIndex(activeWeaponIndex);
+            currentWeapon.RefreshAmmoUI(); 
         }
     }
 }

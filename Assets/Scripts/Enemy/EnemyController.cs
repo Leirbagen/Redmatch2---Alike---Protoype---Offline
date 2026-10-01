@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private Rigidbody enemyBody;
     private float coolDownWalls = 0f;
     public GameObject enemyFractured;
+    public static event Action OnEnemyDefeated;
 
     private void Awake()
     {
@@ -60,6 +62,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             GameObject corpseClone = Instantiate(enemyFractured, transform.position, transform.rotation);
             Destroy(corpseClone, 5f);
         }
+        OnEnemyDefeated?.Invoke();
         gameObject.SetActive(false);
     }
     private void Update()
@@ -105,7 +108,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         Directions oldDirection = currentDirection;
         do
         {
-            int randomDirection = Random.Range(1, 5);
+            int randomDirection = UnityEngine.Random.Range(1, 5);
             switch (randomDirection)
             {
                 case 1: 

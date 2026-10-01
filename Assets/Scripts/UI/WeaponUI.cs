@@ -4,21 +4,25 @@ using UnityEngine.UI;
 
 public class WeaponUI : MonoBehaviour
 {
-    public static WeaponUI Instance { get; private set; }
     public TMP_Text currentBullets;
     public TMP_Text totalBullets;
     public Image[] weaponIcons;
     private Color activeColor = new Color(1f, 1f, 1f, 1f);
     private Color inactiveColor = new Color(0.6f, 0.6f, 0.6f, 0.4f);
-    private void Awake()
+
+    private void OnEnable()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        WeaponBase.OnAmmoChanged += UpdateBoth;
+        PlayerWeaponController.OnWeaponSwitched += UpdateActiveWeaponIndex;
+        PlayerWeaponController.OnWeaponsCleared += ClearWeaponUI;
     }
+    private void OnDisable()
+    {
+        WeaponBase.OnAmmoChanged -= UpdateBoth;
+        PlayerWeaponController.OnWeaponSwitched -= UpdateActiveWeaponIndex;
+        PlayerWeaponController.OnWeaponsCleared -= ClearWeaponUI;
+    }
+
     public void UpdateCurrent(int newCurrentBullets)
     {
         currentBullets.text = newCurrentBullets.ToString();
