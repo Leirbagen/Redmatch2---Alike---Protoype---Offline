@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {
+        if (Time.timeScale == 0f) return;
         float ValorX = input.GetAxis(InputController.Input.MOUSE_X) * sensibility * Time.deltaTime;
         float ValorY = input.GetAxis(InputController.Input.MOUSE_Y) * sensibility * Time.deltaTime;
         YRotation -= ValorY;

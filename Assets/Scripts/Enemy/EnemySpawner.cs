@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     {
         int initialSpawns = Mathf.Min(concurrentEnemies, totalEnemiesForLevel);
 
-        for (int i = 0; i < concurrentEnemies; i++)
+        for (int i = 0; i < initialSpawns; i++)
         {
             SpawnSingleEnemy();
         }
