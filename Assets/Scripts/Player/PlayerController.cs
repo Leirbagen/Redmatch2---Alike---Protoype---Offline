@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GrapplingController rightGrapple;
     [SerializeField] private float groundCheckDistance = 1.1f;
     [SerializeField] private float fallDistanceThreshold = 20f;
-    [SerializeField] private float damagePerMeter = 2f; 
+    [SerializeField] private float damagePerMeter = 2f;
     [SerializeField] private int maxFallDamage = 40;
     private float highestYPosition;
     private InputController input;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         myBody = GetComponent<Rigidbody>();
         input = InputController.Instance;
     }
-    private void MovePlayer() 
+    private void MovePlayer()
     {
         float movX = input.GetAxis(InputController.Input.MOVEMENT_X);
         float movZ = input.GetAxis(InputController.Input.MOVEMENT_Y);
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private void Jump() 
+    private void Jump()
     {
         myBody.AddForce(Vector3.up * forceJump, ForceMode.Impulse);
     }
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         bool touchingGround = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+
         if (!touchingGround)
         {
             if (transform.position.y > highestYPosition)
@@ -76,7 +77,7 @@ public class PlayerController : MonoBehaviour
             if (fallDistance > fallDistanceThreshold)
             {
                 int calculatedDamage = Mathf.RoundToInt((fallDistance - fallDistanceThreshold) * damagePerMeter);
-                int finalDamage = Mathf.Min(calculatedDamage, maxFallDamage); 
+                int finalDamage = Mathf.Min(calculatedDamage, maxFallDamage);
                 if (TryGetComponent<IDamageable>(out var damageable))
                 {
                     damageable.TakeDamage(finalDamage);
@@ -87,7 +88,6 @@ public class PlayerController : MonoBehaviour
         {
             highestYPosition = transform.position.y;
         }
-
         isJumping = !touchingGround;
         if (input.GetButtonDown(InputController.Input.JUMP))
         {
@@ -96,7 +96,6 @@ public class PlayerController : MonoBehaviour
             if (isJumping == false)
             {
                 Jump();
-                isJumping = true;
                 playerAudio.PlayOneShot(jumpSound);
             }
         }
@@ -109,11 +108,8 @@ public class PlayerController : MonoBehaviour
             rightGrapple.StartGrapple();
         }
     }
-
     private void FixedUpdate()
     {
         MovePlayer();
     }
 }
-
-

@@ -1,12 +1,16 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
 {
+
     public MeshRenderer myPlayerMesh;
     public Material[] availableSkins;
+    public int currentWeaponCategory;
     private void Start()
     {
         LoadCosmetics();
+        LoadWeaponCategory();
     }
     private void LoadCosmetics()
     {
@@ -15,5 +19,9 @@ public class PlayerDataManager : MonoBehaviour
         {
             myPlayerMesh.material = availableSkins[savedSkinIndex];
         }
+    }
+    private void LoadWeaponCategory() 
+    {
+        currentWeaponCategory = PlayerPrefs.GetInt("SelectedWeaponCategory", 0);
     }
 }
