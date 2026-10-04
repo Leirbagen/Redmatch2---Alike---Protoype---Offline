@@ -5,26 +5,48 @@ using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    [Serializable]
+    public struct WeaponLoad
+    {
+        public string categoryName;
+        public WeaponBase[] weapons;
+    }
+
     public List<WeaponBase> startingWeapons = new List<WeaponBase>();
     public Transform weaponParentSocket;
     public Transform defaultWeaponPosition;
     public Transform aimingPosition;
     public float aimSpeed = 9f;
     private WeaponBase[] weaponSlots = new WeaponBase[2];
+    public WeaponLoad[] availableCategories;
     public int activeWeaponIndex { get; private set; }
     private WeaponBase currentWeapon;
     private bool isSwitchingAxis = false;
     public static event Action<int> OnWeaponSwitched;
     public static event Action OnWeaponsCleared;
-
+    public static event Action<Sprite, int> OnWeaponIconReady;
+    private void OnEnable()
+    {
+        WeaponUI.OnUIWakesUp += ForceUIUpdate;
+    }
+    private void OnDisable()
+    {
+        WeaponUI.OnUIWakesUp -= ForceUIUpdate;
+    }
     private void Start()
     {
         activeWeaponIndex = -1;
-        foreach (WeaponBase startingWeapon in startingWeapons)
+        OnWeaponsCleared?.Invoke();
+
+        PlayerDataManager dataManager = GetComponent<PlayerDataManager>();
+        int selectedIndex = dataManager != null ? dataManager.currentWeaponCategory : 0;
+
+        foreach (WeaponBase startingWeapon in availableCategories[selectedIndex].weapons)
         {
             AddWeapon(startingWeapon);
         }
-        OnWeaponsCleared?.Invoke();
+
+        if (weaponSlots[0] != null) SwitchWeapon(0);
     }
     private void Update()
     {
@@ -32,9 +54,13 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (currentWeapon != null)
         {
-            if (InputController.Instance.GetButtonDown(InputController.Input.FIRE_1))
+            if (currentWeapon.isAutomatic)
             {
-                currentWeapon.TryShoot();
+                if (InputController.Instance.GetButton(InputController.Input.FIRE_1)) currentWeapon.TryShoot();
+            }
+            else
+            {
+                if (InputController.Instance.GetButtonDown(InputController.Input.FIRE_1)) currentWeapon.TryShoot();
             }
             if (InputController.Instance.GetButtonDown(InputController.Input.RELOAD_WEAPON))
             {
@@ -43,53 +69,48 @@ public class PlayerWeaponController : MonoBehaviour
             if (InputController.Instance.GetButton(InputController.Input.AIM_WEAPON))
             {
                 weaponParentSocket.position = Vector3.Lerp(weaponParentSocket.position, aimingPosition.position, Time.deltaTime * aimSpeed);
+                currentWeapon.SetAiming(true);
             }
             else
             {
                 weaponParentSocket.position = Vector3.Lerp(weaponParentSocket.position, defaultWeaponPosition.position, Time.deltaTime * aimSpeed);
+                currentWeapon.SetAiming(false);
             }
-        }
-
-        float scrollValue = InputController.Instance.GetAxis(InputController.Input.SCROLL_WHEEL);
-        if (scrollValue > 0.1f)
-        {
-            if (!isSwitchingAxis)
+            float scrollValue = InputController.Instance.GetAxis(InputController.Input.SCROLL_WHEEL);
+            if (scrollValue > 0.1f)
             {
-                if (activeWeaponIndex >= weaponSlots.Length - 1)
+                if (!isSwitchingAxis)
                 {
-                    SwitchWeapon(0);
+                    SwitchWeapon(activeWeaponIndex >= weaponSlots.Length - 1 ? 0 : activeWeaponIndex + 1);
+                    isSwitchingAxis = true;
                 }
-                else
-                {
-                    SwitchWeapon(activeWeaponIndex + 1);
-                }
-                isSwitchingAxis = true;
             }
-        }
-        else if (scrollValue < -0.1f)
-        {
-            if (!isSwitchingAxis)
+            else if (scrollValue < -0.1f)
             {
-                if (activeWeaponIndex <= 0)
+                if (!isSwitchingAxis)
                 {
-                    SwitchWeapon(weaponSlots.Length - 1);
+                    SwitchWeapon(activeWeaponIndex <= 0 ? weaponSlots.Length - 1 : activeWeaponIndex - 1);
+                    isSwitchingAxis = true;
                 }
-                else
-                {
-                    SwitchWeapon(activeWeaponIndex - 1);
-                }
-                isSwitchingAxis = true;
+            }
+            else
+            {
+                isSwitchingAxis = false;
             }
         }
-        else
+    }
+    private void ForceUIUpdate()
+    {
+        for (int i = 0; i < weaponSlots.Length; i++)
         {
-            isSwitchingAxis = false;
+            OnWeaponIconReady?.Invoke(weaponSlots[i] != null ? weaponSlots[i].weaponIcon : null, i);
         }
+        OnWeaponSwitched?.Invoke(activeWeaponIndex);
+        if (currentWeapon != null) currentWeapon.RefreshAmmoUI();
     }
     private void AddWeapon(WeaponBase p_weaponPrefab)
     {
         weaponParentSocket.position = defaultWeaponPosition.position;
-
         for (int i = 0; i < weaponSlots.Length; i++)
         {
             if (weaponSlots[i] == null)
@@ -103,26 +124,21 @@ public class PlayerWeaponController : MonoBehaviour
     }
     private void SwitchWeapon(int newIndex)
     {
-        if (weaponSlots[newIndex] == null)
-        {
-            return;
-        }
+        if (weaponSlots[newIndex] == null) return;
+
         foreach (WeaponBase weapon in weaponSlots)
         {
             if (weapon != null)
             {
+                weapon.SetAiming(false);
                 weapon.gameObject.SetActive(false);
             }
         }
         weaponSlots[newIndex].gameObject.SetActive(true);
         activeWeaponIndex = newIndex;
         currentWeapon = weaponSlots[newIndex];
-
+        OnWeaponIconReady?.Invoke(currentWeapon.weaponIcon, activeWeaponIndex);
         OnWeaponSwitched?.Invoke(activeWeaponIndex);
-
-        if (currentWeapon != null)
-        {
-            currentWeapon.RefreshAmmoUI(); 
-        }
+        currentWeapon.RefreshAmmoUI();
     }
 }

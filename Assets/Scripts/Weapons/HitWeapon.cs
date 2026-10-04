@@ -1,11 +1,19 @@
-using UnityEngine;
 using DamageNumbersPro;
+using System;
+using UnityEngine;
 public class HitWeapon : WeaponBase
 {
+    public bool useScope = false;
+    public float scopedZoom = 10f; 
+    public GameObject weaponMesh;
     public float fireRange = 200f;
     public LayerMask wallsHitLayer;
     public LayerMask hitLayer;
     public float backForce = 4f;
+    private Camera playerCam;
+    private float defaultZoom;
+    private bool isAiming = false;
+
     [SerializeField] private int weaponDamage;
     public Transform weaponNozzle;
     public GameObject bulletHole;
@@ -14,18 +22,43 @@ public class HitWeapon : WeaponBase
     public AudioClip shootSound;
     private Transform cameraPlayerTransform;
     public DamageNumber numberPrefab;
+
+    public static event Action<bool> OnScopeUI;
+
     protected override void Start()
     {
         base.Start(); 
         cameraPlayerTransform = GameObject.FindWithTag("PlayerCamera").transform;
+        playerCam = cameraPlayerTransform.GetComponent<Camera>();
+        if (playerCam != null)
+        {
+            defaultZoom = playerCam.fieldOfView;
+        }
     }
     private void Update()
     {
-        base.Update();
         transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, Time.deltaTime * 5f);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * 5f);
-    }
 
+        if (useScope && playerCam != null)
+        {
+            float targetZoom = isAiming ? scopedZoom : defaultZoom;
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetZoom, Time.deltaTime * 15f);
+        }
+    }
+    public override void SetAiming(bool aiming)
+    {
+        if (isAiming == aiming) return;
+        isAiming = aiming;
+        if (useScope)
+        {
+            if (weaponMesh != null)
+            {
+                weaponMesh.SetActive(!aiming);
+            }
+            OnScopeUI?.Invoke(aiming);
+        }
+    }
     protected override void ExecuteShoot()
     {
         if (weaponAudio != null && shootSound != null)

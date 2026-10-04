@@ -8459,38 +8459,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &732391650 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1231147898168653364, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
-  m_PrefabInstance: {fileID: 5237500584809769574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &732391660 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2516003810114803075, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
   m_PrefabInstance: {fileID: 5237500584809769574}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &732391661
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732391650}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &758160601
 GameObject:
   m_ObjectHideFlags: 0
@@ -11695,6 +11668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentBullets: {fileID: 497812029}
   totalBullets: {fileID: 26964125}
+  scopeDisplay: {fileID: 1688697900}
   weaponIcons:
   - {fileID: 1097923080}
   - {fileID: 1715476610}
@@ -12399,6 +12373,7 @@ RectTransform:
   - {fileID: 2128751194}
   - {fileID: 2065510624}
   - {fileID: 1369987703}
+  - {fileID: 1688697901}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14615,6 +14590,33 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1593490632 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1231147898168653364, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+  m_PrefabInstance: {fileID: 5237500584809769574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1593490643
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593490632}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1623317271
 GameObject:
   m_ObjectHideFlags: 0
@@ -15394,6 +15396,81 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1688697900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688697901}
+  - component: {fileID: 1688697903}
+  - component: {fileID: 1688697902}
+  m_Layer: 5
+  m_Name: Scope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1688697901
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688697900}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1343894459}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.5643309e-10, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1688697902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688697900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 92983798e512fc145ac39f9055d34b57, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1688697903
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688697900}
+  m_CullTransparentMesh: 1
 --- !u!1 &1715476608
 GameObject:
   m_ObjectHideFlags: 0
@@ -15558,7 +15635,7 @@ PlayableDirector:
   - key: {fileID: 493912708433860957, guid: 224f0911a749bd04892354bbf9fbb832, type: 2}
     value: {fileID: 329627554}
   - key: {fileID: 7309459768752442641, guid: 224f0911a749bd04892354bbf9fbb832, type: 2}
-    value: {fileID: 732391661}
+    value: {fileID: 1593490643}
   - key: {fileID: 2153318738479819776, guid: 224f0911a749bd04892354bbf9fbb832, type: 2}
     value: {fileID: 1343894460}
   - key: {fileID: 2607024579321542496, guid: 224f0911a749bd04892354bbf9fbb832, type: 2}
@@ -19389,7 +19466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744292052338408768, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8237137035650794939, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19427,13 +19504,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: availableCategories.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: availableCategories.Array.data[0].categoryName
+      value: Pistol +  SubRiffle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: availableCategories.Array.data[1].categoryName
+      value: Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: availableCategories.Array.data[0].weapons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: availableCategories.Array.data[1].weapons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: 'availableCategories.Array.data[0].weapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2835385785719667974, guid: 7fd44739cb9158e418cdb958bc6d7d9d, type: 3}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: 'availableCategories.Array.data[0].weapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7457555669967219847, guid: 04e7112568a20c2489ded8e5b4407db8, type: 3}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: 'availableCategories.Array.data[1].weapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: -7431386824301002336, guid: 62c5b91b8245aa2419bf231a9f88cfdc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1231147898168653364, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 732391661}
+      addedObject: {fileID: 1593490643}
   m_SourcePrefab: {fileID: 100100000, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
