@@ -162,11 +162,12 @@ MonoBehaviour:
   isJumping: 0
   leftGrapple: {fileID: 3846343780227757164}
   rightGrapple: {fileID: 5306151879006208458}
-  swingControlForce: 20
+  swingControlForce: 8
   groundCheckDistance: 1.1
   fallDistanceThreshold: 20
   damagePerMeter: 2
   maxFallDamage: 40
+  airControlForce: 4
   playerAudio: {fileID: 8331236191315641181}
   jumpSound: {fileID: 8300000, guid: 6ae21af32ef64904ab02de6755d695cf, type: 3}
   landSound: {fileID: 8300000, guid: b2de1a06aacea2d4e9f5e39349ed5901, type: 3}

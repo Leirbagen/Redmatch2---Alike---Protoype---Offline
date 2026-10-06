@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         Vector3 inputMovement = (transform.right * movX) + (transform.forward * movZ);
         if (isJumping == false)
         {
-            Vector3 finalVelocity = inputMovement * velocity;
+            Vector3 finalVelocity = inputMovement.normalized * velocity;
             finalVelocity.y = myBody.linearVelocity.y;
             myBody.linearVelocity = finalVelocity;
         }
@@ -49,12 +49,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             myBody.AddForce(inputMovement * airControlForce, ForceMode.Acceleration);
-            /*
-            Vector3 currentFlatVelocity = new Vector3(myBody.linearVelocity.x, 0f, myBody.linearVelocity.z);
-            Vector3 targetFlatVelocity = inputMovement * velocity;
-            Vector3 newFlatVelocity = Vector3.MoveTowards(currentFlatVelocity, targetFlatVelocity, (velocity * 8f) * Time.fixedDeltaTime);
-            myBody.linearVelocity = new Vector3(newFlatVelocity.x, myBody.linearVelocity.y, newFlatVelocity.z);
-            */
         }
     }
     private void Jump()
