@@ -9,8 +9,6 @@ public class EnemyPool : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private int poolSize = 15;
     [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
-
-
     private void Awake()
     {
         if (Instance != null) 

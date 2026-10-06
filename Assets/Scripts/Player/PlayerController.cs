@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         Vector3 inputMovement = (transform.right * movX) + (transform.forward * movZ);
         if (isJumping == false)
         {
-            Vector3 finalVelocity = inputMovement * velocity;
+            Vector3 finalVelocity = inputMovement.normalized * velocity;
             finalVelocity.y = myBody.linearVelocity.y;
             myBody.linearVelocity = finalVelocity;
         }
@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour
 
             if (isGrappling)
             {
-                myBody.AddForce(inputMovement * (velocity * 0.5f), ForceMode.Acceleration);
+                myBody.AddForce(inputMovement.normalized * (velocity * 0.5f), ForceMode.Acceleration);
             }
             else
             {
-                Vector3 currentFlatVelocity = new Vector3(myBody.linearVelocity.x, 0f, myBody.linearVelocity.z);
-                Vector3 targetFlatVelocity = inputMovement * velocity;
+                Vector3 currentFlatVelocity = new Vector3(myBody.linearVelocity.normalized.x, 0f, myBody.linearVelocity.normalized.z);
+                Vector3 targetFlatVelocity = inputMovement.normalized * velocity;
                 Vector3 newFlatVelocity = Vector3.MoveTowards(currentFlatVelocity, targetFlatVelocity, (velocity * 8f) * Time.fixedDeltaTime);
                 myBody.linearVelocity = new Vector3(newFlatVelocity.x, myBody.linearVelocity.y, newFlatVelocity.z);
             }

@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private float maxHealth = 100;
     [SerializeField] private float velocity = 10;
     [SerializeField] private float currentHealth;
+    private bool isDead = false;
     public GameObject damageEffect;
     private Renderer enemyRenderer;
     private Color originalColor;
@@ -32,6 +33,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         currentHealth = maxHealth;
+        isDead = false;
         if (enemyRenderer != null)
         {
             enemyRenderer.material.color = originalColor;
@@ -40,12 +42,17 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     public void TakeDamage(int damageInt) 
     {
+        if (isDead) 
+        {
+            return;
+        }
         currentHealth -= damageInt;
         GameObject damageEffectClone = Instantiate(damageEffect, transform.position, transform.rotation);
         StartCoroutine(colorDamage());
         Destroy(damageEffectClone, 1f);
         if (currentHealth <= 0) 
         {
+            isDead = true;
             Die();
         }
     }

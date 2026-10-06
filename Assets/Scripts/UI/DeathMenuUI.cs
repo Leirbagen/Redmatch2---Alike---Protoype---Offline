@@ -5,14 +5,15 @@ using UnityEngine.SceneManagement;
 public class DeathMenuUI : MonoBehaviour
 {
     public GameObject deathPanel;
+    public PlayerHealth playerHealth;
     private void OnEnable()
     {
-        PlayerHealth.OnPlayerDied += ShowDeathPanel;
+        playerHealth.OnPlayerDied += ShowDeathPanel;
         LevelManager.OnTimeOutLost += ShowDeathPanel;
     }
     private void OnDisable()
     {
-        PlayerHealth.OnPlayerDied -= ShowDeathPanel;
+        playerHealth.OnPlayerDied -= ShowDeathPanel;
         LevelManager.OnTimeOutLost -= ShowDeathPanel;
     }
     public void ShowDeathPanel()
