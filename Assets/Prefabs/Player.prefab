@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3403536625719841518}
   - component: {fileID: 5987327025919363568}
   - component: {fileID: 5123849828318084906}
-  - component: {fileID: 7653730810467671457}
   - component: {fileID: 8030323658621776697}
   - component: {fileID: 8785869928844327663}
   - component: {fileID: 8331236191315641181}
@@ -146,25 +145,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7653730810467671457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231147898168653364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c4a83e80c599744a2a29a956f3796e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraLook: {fileID: 7486327104575030368}
-  ropeOut: {fileID: 2107935497729131858}
-  maxDistance: 100
-  grappleableLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerBody: {fileID: 0}
 --- !u!114 &8030323658621776697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +162,11 @@ MonoBehaviour:
   isJumping: 0
   leftGrapple: {fileID: 3846343780227757164}
   rightGrapple: {fileID: 5306151879006208458}
+  swingControlForce: 20
   groundCheckDistance: 1.1
+  fallDistanceThreshold: 20
+  damagePerMeter: 2
+  maxFallDamage: 40
   playerAudio: {fileID: 8331236191315641181}
   jumpSound: {fileID: 8300000, guid: 6ae21af32ef64904ab02de6755d695cf, type: 3}
   landSound: {fileID: 8300000, guid: b2de1a06aacea2d4e9f5e39349ed5901, type: 3}
@@ -205,6 +189,7 @@ MonoBehaviour:
   defaultWeaponPosition: {fileID: 8378176827769398095}
   aimingPosition: {fileID: 2864313865911490853}
   aimSpeed: 9
+  availableCategories: []
 --- !u!82 &8331236191315641181
 AudioSource:
   m_ObjectHideFlags: 0
@@ -323,6 +308,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 131567e445e6ef84c99488cd76bf3ac1, type: 2}
   - {fileID: 2100000, guid: dd257bb068ff00949a9338f9f8e158ac, type: 2}
   - {fileID: 2100000, guid: 1d255524137396948978a21c5315af55, type: 2}
+  currentWeaponCategory: 0
 --- !u!114 &6964181527821555676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +336,7 @@ GameObject:
   - component: {fileID: 6799270056897840033}
   - component: {fileID: 3846343780227757164}
   - component: {fileID: 1169221830741927202}
+  - component: {fileID: 2550085836260442178}
   m_Layer: 0
   m_Name: LeftGrap
   m_TagString: Untagged
@@ -465,7 +452,10 @@ MonoBehaviour:
   grappleableLayer:
     serializedVersion: 2
     m_Bits: 64
-  playerBody: {fileID: 1231147898168653364}
+  player: {fileID: 2516003810114803075}
+  isHooked: 0
+  audioSource: {fileID: 2550085836260442178}
+  shootSound: {fileID: 8300000, guid: dd0cab94723e7864dbee6489165fe4c1, type: 3}
 --- !u!120 &1169221830741927202
 LineRenderer:
   serializedVersion: 2
@@ -573,6 +563,103 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!82 &2550085836260442178
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682701781649558221}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3011834134467270233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1180,7 @@ GameObject:
   - component: {fileID: 8130137587378664573}
   - component: {fileID: 5306151879006208458}
   - component: {fileID: 36876234794876044}
+  - component: {fileID: 6215381003327968133}
   m_Layer: 0
   m_Name: RightGrap
   m_TagString: Untagged
@@ -1208,7 +1296,10 @@ MonoBehaviour:
   grappleableLayer:
     serializedVersion: 2
     m_Bits: 64
-  playerBody: {fileID: 1231147898168653364}
+  player: {fileID: 2516003810114803075}
+  isHooked: 0
+  audioSource: {fileID: 6215381003327968133}
+  shootSound: {fileID: 8300000, guid: dd0cab94723e7864dbee6489165fe4c1, type: 3}
 --- !u!120 &36876234794876044
 LineRenderer:
   serializedVersion: 2
@@ -1316,6 +1407,103 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!82 &6215381003327968133
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868879480850805575}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8968023569656163203
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,10 +11,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isJumping = false;
     [SerializeField] private GrapplingController leftGrapple;
     [SerializeField] private GrapplingController rightGrapple;
+    public bool isSwinging => leftGrapple.IsHooked || rightGrapple.IsHooked;
+    [SerializeField] private float swingControlForce = 20f;
     [SerializeField] private float groundCheckDistance = 1.1f;
     [SerializeField] private float fallDistanceThreshold = 20f;
     [SerializeField] private float damagePerMeter = 2f;
     [SerializeField] private int maxFallDamage = 40;
+    [SerializeField] private float airControlForce = 15f;
+    private bool leftWaitRelease;
+    private bool rightWaitRelease;
     private float highestYPosition;
     private InputController input;
     public AudioSource playerAudio;
@@ -37,21 +42,19 @@ public class PlayerController : MonoBehaviour
             finalVelocity.y = myBody.linearVelocity.y;
             myBody.linearVelocity = finalVelocity;
         }
+        else if (isSwinging)
+        {
+            myBody.AddForce(inputMovement * swingControlForce, ForceMode.Acceleration);
+        }
         else
         {
-            bool isGrappling = GetComponent<SpringJoint>() != null;
-
-            if (isGrappling)
-            {
-                myBody.AddForce(inputMovement * (velocity * 0.5f), ForceMode.Acceleration);
-            }
-            else
-            {
-                Vector3 currentFlatVelocity = new Vector3(myBody.linearVelocity.x, 0f, myBody.linearVelocity.z);
-                Vector3 targetFlatVelocity = inputMovement * velocity;
-                Vector3 newFlatVelocity = Vector3.MoveTowards(currentFlatVelocity, targetFlatVelocity, (velocity * 8f) * Time.fixedDeltaTime);
-                myBody.linearVelocity = new Vector3(newFlatVelocity.x, myBody.linearVelocity.y, newFlatVelocity.z);
-            }
+            myBody.AddForce(inputMovement * airControlForce, ForceMode.Acceleration);
+            /*
+            Vector3 currentFlatVelocity = new Vector3(myBody.linearVelocity.x, 0f, myBody.linearVelocity.z);
+            Vector3 targetFlatVelocity = inputMovement * velocity;
+            Vector3 newFlatVelocity = Vector3.MoveTowards(currentFlatVelocity, targetFlatVelocity, (velocity * 8f) * Time.fixedDeltaTime);
+            myBody.linearVelocity = new Vector3(newFlatVelocity.x, myBody.linearVelocity.y, newFlatVelocity.z);
+            */
         }
     }
     private void Jump()
@@ -69,6 +72,10 @@ public class PlayerController : MonoBehaviour
             {
                 highestYPosition = transform.position.y;
             }
+        }
+        if (isSwinging) //in order not to collect distance of falling
+        {
+            highestYPosition = transform.position.y;
         }
         if (isJumping && touchingGround)
         {
@@ -93,23 +100,40 @@ public class PlayerController : MonoBehaviour
         {
             leftGrapple.StopGrapple();
             rightGrapple.StopGrapple();
+            leftWaitRelease = true;
+            rightWaitRelease = true;
             if (isJumping == false)
             {
                 Jump();
                 playerAudio.PlayOneShot(jumpSound);
             }
         }
-        if (input.GetButtonDown(InputController.Input.GRAPPLE_LEFT))
-        {
-            leftGrapple.StartGrapple();
-        }
-        if (input.GetButtonDown(InputController.Input.GRAPPLE_RIGHT))
-        {
-            rightGrapple.StartGrapple();
-        }
+        HandleGrapples();
     }
     private void FixedUpdate()
     {
         MovePlayer();
+    }
+
+    private void HandleGrapples()
+    {
+        if (input.GetButton(InputController.Input.GRAPPLE_LEFT) && !leftWaitRelease)
+        {
+            leftGrapple.StartGrapple();
+        }
+        else
+        {
+            leftWaitRelease = false;
+            leftGrapple.StopGrapple();
+        }
+        if (input.GetButton(InputController.Input.GRAPPLE_RIGHT) && !rightWaitRelease)
+        {
+            rightGrapple.StartGrapple();
+        }
+        else
+        {
+            rightWaitRelease = false;
+            rightGrapple.StopGrapple();
+        }
     }
 }
