@@ -918,7 +918,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1670,7 +1669,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2424,7 +2422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   concurrentEnemies: 15
-  totalEnemiesForLevel: 20
+  totalEnemiesForLevel: 30
   respawnDelay: 3
 --- !u!4 &155545209
 Transform:
@@ -4387,7 +4385,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -5602,7 +5599,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6258,7 +6254,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6600,7 +6595,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -10564,7 +10558,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -11666,6 +11659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b20f5b4c86595749803d1490cf3a5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerWeaponController: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
   currentBullets: {fileID: 497812029}
   totalBullets: {fileID: 26964125}
   scopeDisplay: {fileID: 1688697900}
@@ -12416,6 +12410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathPanel: {fileID: 2065510623}
+  playerHealth: {fileID: 6964181527821555676, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
 --- !u!43 &1344943080
 Mesh:
   m_ObjectHideFlags: 0
@@ -12676,7 +12671,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -13698,7 +13692,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -15836,6 +15829,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &1818466024 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6650182909990263851, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+  m_PrefabInstance: {fileID: 5237500584809769574}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1822928421
 GameObject:
   m_ObjectHideFlags: 0
@@ -17679,7 +17677,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -18826,6 +18823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 588000409}
+  playerHealth: {fileID: 6964181527821555676, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
 --- !u!1 &2138245883
 GameObject:
   m_ObjectHideFlags: 0
@@ -19504,6 +19502,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: playerHUD
+      value: 
+      objectReference: {fileID: 1210777885}
+    - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1818466024}
     - target: {fileID: 8785869928844327663, guid: 6c427748a53a89047a0e5239d06af9f7, type: 3}
       propertyPath: availableCategories.Array.size
       value: 2

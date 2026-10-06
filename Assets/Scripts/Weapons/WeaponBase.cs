@@ -13,7 +13,7 @@ public abstract class WeaponBase : MonoBehaviour
     protected bool canShoot = true;
     protected bool isReloading = false;
     public bool isAutomatic = false;
-    public static event Action<int, int> OnAmmoChanged;
+    public event Action<int, int> OnAmmoChanged;
 
     protected virtual void Start()
     {
@@ -61,4 +61,6 @@ public abstract class WeaponBase : MonoBehaviour
         isReloading = false;
     }
     protected abstract void ExecuteShoot();
+    public virtual void InjectCamera(Camera cam) { }
+
 }
