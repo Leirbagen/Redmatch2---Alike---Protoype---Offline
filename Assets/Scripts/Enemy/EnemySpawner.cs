@@ -31,6 +31,10 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
+            if (enemiesSpawned >= totalEnemiesForLevel)
+            {
+                yield break;
+            }
             if (EnemyPool.Instance.ActiveEnemiesCount() < concurrentEnemies)
             {
                 SpawnSingleEnemy();

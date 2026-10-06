@@ -23,13 +23,17 @@ public class HitWeapon : WeaponBase
     private Transform cameraPlayerTransform;
     public DamageNumber numberPrefab;
 
-    public static event Action<bool> OnScopeUI;
+    public event Action<bool> OnScopeUI;
 
     protected override void Start()
     {
         base.Start(); 
-        cameraPlayerTransform = GameObject.FindWithTag("PlayerCamera").transform;
-        playerCam = cameraPlayerTransform.GetComponent<Camera>();
+    }
+
+    public override void InjectCamera(Camera cam)
+    {
+        playerCam = cam;
+        cameraPlayerTransform = cam.transform;
         if (playerCam != null)
         {
             defaultZoom = playerCam.fieldOfView;
@@ -71,7 +75,7 @@ public class HitWeapon : WeaponBase
             Destroy(flashClone, 0.1f);
         }
         AddRecoil();
-        if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out RaycastHit hit, fireRange, hitLayer))
+        if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out RaycastHit hit, fireRange, hitLayer | wallsHitLayer))
         {
             IDamageable damageableObject = hit.collider.GetComponent<IDamageable>();
             if (damageableObject != null)
