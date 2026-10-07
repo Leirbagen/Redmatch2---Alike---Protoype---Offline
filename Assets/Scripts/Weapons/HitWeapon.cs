@@ -17,7 +17,6 @@ public class HitWeapon : WeaponBase
     [SerializeField] private int weaponDamage;
     public Transform weaponNozzle;
     public GameObject bulletHole;
-    public GameObject flashEffect;
     public AudioSource weaponAudio;
     public AudioClip shootSound;
     private Transform cameraPlayerTransform;
@@ -69,10 +68,14 @@ public class HitWeapon : WeaponBase
         {
             weaponAudio.PlayOneShot(shootSound);
         }
-        if (flashEffect != null && weaponNozzle != null)
+        if (weaponNozzle != null)
         {
-            GameObject flashClone = Instantiate(flashEffect, weaponNozzle.position, Quaternion.Euler(weaponNozzle.forward), transform);
-            Destroy(flashClone, 0.1f);
+            GameObject flashClone = PoolManager.Instance.Get("ShotFlashEffect", weaponNozzle.position, weaponNozzle.rotation);
+
+            if (flashClone != null)
+            {
+                flashClone.transform.SetParent(transform);
+            }
         }
         AddRecoil();
         if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out RaycastHit hit, fireRange, hitLayer | wallsHitLayer))

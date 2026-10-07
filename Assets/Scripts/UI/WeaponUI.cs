@@ -11,8 +11,6 @@ public class WeaponUI : MonoBehaviour
     public Image[] weaponIcons;
     private Color activeColor = new Color(1f, 1f, 1f, 1f);
     private Color inactiveColor = new Color(0.6f, 0.6f, 0.6f, 0.4f);
-
-    // Restauramos el evento que avisa que la UI despertó
     public event System.Action OnUIWakesUp;
 
     private void Start()

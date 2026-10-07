@@ -17,8 +17,6 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform defaultWeaponPosition;
     public Transform aimingPosition;
     public Camera playerCamera;
-
-    // Restauramos la referencia a tu HUD
     public WeaponUI playerHUD;
 
     public float aimSpeed = 9f;
@@ -33,8 +31,6 @@ public class PlayerWeaponController : MonoBehaviour
     public event Action<Sprite, int> OnWeaponIconReady;
     public event Action<int, int> OnAmmoChanged;
     public event Action<bool> OnScopeUI;
-
-    // Restauramos la escucha al despertar del HUD
     private void OnEnable()
     {
         if (playerHUD != null) playerHUD.OnUIWakesUp += ForceUIUpdate;
@@ -133,8 +129,6 @@ public class PlayerWeaponController : MonoBehaviour
                 WeaponBase weaponClone = Instantiate(p_weaponPrefab, weaponParentSocket);
                 weaponClone.gameObject.SetActive(false);
                 weaponClone.InjectCamera(playerCamera);
-
-                // Conexiones clásicas funcionando
                 weaponClone.OnAmmoChanged += RetransmitirMunicion;
 
                 if (weaponClone is HitWeapon hitWeapon)
