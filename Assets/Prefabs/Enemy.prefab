@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 5450074573170805871}
   - component: {fileID: 4182008115607990150}
   - component: {fileID: 977198907977469840}
+  - component: {fileID: -3974481789864832724}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Floor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,3 +158,18 @@ MonoBehaviour:
   damageEffect: {fileID: 3479063009878197008, guid: 3f934433a2334e340b10c63a354af5cf, type: 3}
   currentDirection: 0
   enemyBody: {fileID: 0}
+  enemyFractured: {fileID: 7112685753341914992, guid: 637273eea65eb3d448c9bd9a33992822, type: 3}
+--- !u!114 &-3974481789864832724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8698345744262501136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e174d91ad9bf8db439200584876019a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTouch: 10
+  damageInterval: 1
