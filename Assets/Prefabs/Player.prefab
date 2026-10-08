@@ -189,6 +189,7 @@ MonoBehaviour:
   weaponParentSocket: {fileID: 7030251115398031625}
   defaultWeaponPosition: {fileID: 8378176827769398095}
   aimingPosition: {fileID: 2864313865911490853}
+  playerCamera: {fileID: 6650182909990263851}
   aimSpeed: 9
   availableCategories: []
 --- !u!82 &8331236191315641181
