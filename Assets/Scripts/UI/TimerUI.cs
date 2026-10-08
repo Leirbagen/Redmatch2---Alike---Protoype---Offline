@@ -19,12 +19,12 @@ public class TimerUI : MonoBehaviour
         LevelManager.OnTimeOutLost -= DisableTimerUI;
     }
 
-    private void UpdateTimeUI(float timeRemaining) 
+    private void UpdateTimeUI(float timeRemaining)
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(Mathf.Max(0, timeRemaining));
         timeText.text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds);
     }
-    private void DisableTimerUI() 
+    private void DisableTimerUI()
     {
         timeText.gameObject.SetActive(false);
         labelText.gameObject.SetActive(false);
