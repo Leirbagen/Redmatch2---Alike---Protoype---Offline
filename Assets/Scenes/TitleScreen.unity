@@ -3948,6 +3948,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 2
+  _playerPrefab:
+    RawGuidValue: 6c427748a53a89047a0e5239d06af9f7
 --- !u!4 &1418667545
 Transform:
   m_ObjectHideFlags: 0
