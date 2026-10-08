@@ -11,50 +11,45 @@ public class PlayerWeaponController : MonoBehaviour
         public string categoryName;
         public WeaponBase[] weapons;
     }
-
     public List<WeaponBase> startingWeapons = new List<WeaponBase>();
     public Transform weaponParentSocket;
     public Transform defaultWeaponPosition;
     public Transform aimingPosition;
     public Camera playerCamera;
-    public WeaponUI playerHUD;
-
     public float aimSpeed = 9f;
     private WeaponBase[] weaponSlots = new WeaponBase[2];
     public WeaponLoad[] availableCategories;
     public int activeWeaponIndex { get; private set; }
     private WeaponBase currentWeapon;
     private bool isSwitchingAxis = false;
+    public static event Action<int> OnWeaponSwitched;
+    public static event Action OnWeaponsCleared;
+    public static event Action<Sprite, int> OnWeaponIconReady;
 
-    public event Action<int> OnWeaponSwitched;
-    public event Action OnWeaponsCleared;
-    public event Action<Sprite, int> OnWeaponIconReady;
-    public event Action<int, int> OnAmmoChanged;
-    public event Action<bool> OnScopeUI;
     private void OnEnable()
     {
-        if (playerHUD != null) playerHUD.OnUIWakesUp += ForceUIUpdate;
+        WeaponUI.OnUIWakesUp += ForceUIUpdate;
+        if (weaponSlots != null && weaponSlots[0] != null)
+        {
+            ForceUIUpdate();
+        }
     }
-
     private void OnDisable()
     {
-        if (playerHUD != null) playerHUD.OnUIWakesUp -= ForceUIUpdate;
+        WeaponUI.OnUIWakesUp -= ForceUIUpdate;
     }
-
-    private void Start()
+    private void Awake()
     {
         activeWeaponIndex = -1;
         OnWeaponsCleared?.Invoke();
-
-        PlayerDataManager dataManager = GetComponent<PlayerDataManager>();
-        int selectedIndex = dataManager != null ? dataManager.currentWeaponCategory : 0;
-
+        int selectedIndex = PlayerPrefs.GetInt("SelectedWeaponCategory", 0);
         foreach (WeaponBase startingWeapon in availableCategories[selectedIndex].weapons)
         {
             AddWeapon(startingWeapon);
         }
 
         if (weaponSlots[0] != null) SwitchWeapon(0);
+        ForceUIUpdate();
     }
 
     private void Update()
@@ -109,7 +104,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    private void ForceUIUpdate()
+    public void ForceUIUpdate()
     {
         for (int i = 0; i < weaponSlots.Length; i++)
         {
@@ -129,28 +124,11 @@ public class PlayerWeaponController : MonoBehaviour
                 WeaponBase weaponClone = Instantiate(p_weaponPrefab, weaponParentSocket);
                 weaponClone.gameObject.SetActive(false);
                 weaponClone.InjectCamera(playerCamera);
-                weaponClone.OnAmmoChanged += RetransmitirMunicion;
-
-                if (weaponClone is HitWeapon hitWeapon)
-                {
-                    hitWeapon.OnScopeUI += RetransmitirMira;
-                }
-
                 weaponSlots[i] = weaponClone;
                 OnWeaponIconReady?.Invoke(weaponClone.weaponIcon, i);
                 return;
             }
         }
-    }
-
-    private void RetransmitirMunicion(int current, int max)
-    {
-        OnAmmoChanged?.Invoke(current, max);
-    }
-
-    private void RetransmitirMira(bool isAiming)
-    {
-        OnScopeUI?.Invoke(isAiming);
     }
 
     private void SwitchWeapon(int newIndex)

@@ -4,7 +4,7 @@ using UnityEngine;
 public class HitWeapon : WeaponBase
 {
     public bool useScope = false;
-    public float scopedZoom = 10f; 
+    public float scopedZoom = 10f;
     public GameObject weaponMesh;
     public float fireRange = 200f;
     public LayerMask wallsHitLayer;
@@ -17,18 +17,18 @@ public class HitWeapon : WeaponBase
     [SerializeField] private int weaponDamage;
     public Transform weaponNozzle;
     public GameObject bulletHole;
+    public GameObject flashEffect;
     public AudioSource weaponAudio;
     public AudioClip shootSound;
     private Transform cameraPlayerTransform;
     public DamageNumber numberPrefab;
 
-    public event Action<bool> OnScopeUI;
+    public static event Action<bool> OnScopeUI;
 
     protected override void Start()
     {
-        base.Start(); 
+        base.Start();
     }
-
     public override void InjectCamera(Camera cam)
     {
         playerCam = cam;
@@ -68,14 +68,10 @@ public class HitWeapon : WeaponBase
         {
             weaponAudio.PlayOneShot(shootSound);
         }
-        if (weaponNozzle != null)
+        if (flashEffect != null && weaponNozzle != null)
         {
-            GameObject flashClone = PoolManager.Instance.Get("ShotFlashEffect", weaponNozzle.position, weaponNozzle.rotation);
-
-            if (flashClone != null)
-            {
-                flashClone.transform.SetParent(transform);
-            }
+            GameObject flashClone = Instantiate(flashEffect, weaponNozzle.position, Quaternion.Euler(weaponNozzle.forward), transform);
+            Destroy(flashClone, 0.1f);
         }
         AddRecoil();
         if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out RaycastHit hit, fireRange, hitLayer | wallsHitLayer))
@@ -86,7 +82,7 @@ public class HitWeapon : WeaponBase
                 damageableObject.TakeDamage(weaponDamage);
                 numberPrefab.Spawn(hit.point, weaponDamage);
             }
-            else 
+            else
             {
                 GameObject bulletHoleClone = Instantiate(bulletHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
                 Destroy(bulletHoleClone, 4f);

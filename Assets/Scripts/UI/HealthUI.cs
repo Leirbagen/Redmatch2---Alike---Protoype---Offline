@@ -4,22 +4,15 @@ using TMPro;
 public class HealthUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI healthText;
-    public PlayerHealth playerHealth;
 
-    private void OnEnable() 
+    private void OnEnable()
     {
-        if (playerHealth != null)
-        {
-            playerHealth.OnHealthChange += UpdateHealth; 
-        }
+        PlayerHealth.OnHealthChange += UpdateHealth;
     }
 
     private void OnDisable()
     {
-        if (playerHealth != null)
-        {
-            playerHealth.OnHealthChange -= UpdateHealth;
-        }
+        PlayerHealth.OnHealthChange -= UpdateHealth;
     }
     public void UpdateHealth(int currentHealth)
     {
